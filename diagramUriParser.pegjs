@@ -30,41 +30,16 @@
 
    port          = DIGIT* { return [ { n: "port", l: location() } ]; }
 
-   IP_literal    = "[" literal:( IPv6address / IPv6addrz / IPvFuture  ) "]" { return literal; }
+   IP_literal    = "[" literal:( IPv6addrz / IPv6address / IPvFuture  ) "]" { return literal; }
 
-   ZoneID = ( unreserved / pct_encoded )+ { return [{ n: "IPv6 zone id", l: location() }]; }
+   ZoneID = ( unreserved / pct_encoded )+ { return [{ n: "ZoneId", l: location() }]; }
 
    IPv6addrz = IPv6address:IPv6address "%25" ZoneID:ZoneID { return IPv6address.concat(ZoneID); }
 
-   IPvFuture     = "v" HEXDIG+ "." ( unreserved / sub_delims / ":" )+ { return [ { n: "IP address of the future", l: location() }]; }
+   IPvFuture     = "v" HEXDIG+ "." ( unreserved / sub_delims / ":" )+ { return [ { n: "IPvFuture", l: location() }]; }
 
-   IPv6address   =                      h16_6 ls32 { return [ { n: "IPv6 address", l: location() } ]; }
-                 /                 "::" h16_5 ls32 { return [ { n: "IPv6 address", l: location() } ]; }
-                 / (        h16 )? "::" h16_4 ls32 { return [ { n: "IPv6 address", l: location() } ]; }
-                 / ( h16_01 h16 )? "::" h16_3 ls32 { return [ { n: "IPv6 address", l: location() } ]; }
-                 / ( h16_02 h16 )? "::" h16_2 ls32 { return [ { n: "IPv6 address", l: location() } ]; }
-                 / ( h16_03 h16 )? "::" h16_1 ls32 { return [ { n: "IPv6 address", l: location() } ]; }
-                 / ( h16_04 h16 )? "::"       ls32 { return [ { n: "IPv6 address", l: location() } ]; }
-                 / ( h16_05 h16 )? "::" h16        { return [ { n: "IPv6 address", l: location() } ]; }
-                 / ( h16_06 h16 )? "::"            { return [ { n: "IPv6 address", l: location() } ]; }
-
-
-   h16           = HEXDIG / HEXDIG HEXDIG / HEXDIG HEXDIG HEXDIG / HEXDIG HEXDIG HEXDIG HEXDIG
-   h16_1 = h16 ":"
-   h16_01 = (h16_1)?
-   h16_2 = h16_1 h16_1
-   h16_02 = h16_01 / h16_2
-   h16_3 = h16_2 h16_1
-   h16_03 = h16_02 / h16_3
-   h16_4 = h16_2 h16_2
-   h16_04 = h16_03 / h16_4
-   h16_5 = h16_2 h16_2
-   h16_05 = h16_04 / h16_5
-   h16_6 = h16_4 h16_2
-   h16_06 = h16_05 / h16_6
-
-   ls32          = ( h16_1 h16 ) / IPv4address
-   IPv4address   = dec_octet "." dec_octet "." dec_octet "." dec_octet { return [ { n: "IPv4 address", l: location() } ]; }
+   IPv6address   = HEXDIG* ":" (HEXDIG / ":")+ IPv4address? { return [ { n: "IPv6", l: location() } ]; }
+   IPv4address   = dec_octet "." dec_octet "." dec_octet "." dec_octet { return [ { n: "IPv4", l: location() } ]; }
 
    dec_octet     = "25" [012345]          
                  / "2" [01234] DIGIT     
