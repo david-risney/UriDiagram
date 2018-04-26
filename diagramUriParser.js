@@ -176,10 +176,10 @@
         peg$c32 = "]",
         peg$c33 = peg$literalExpectation("]", false),
         peg$c34 = function(literal) { return literal; },
-        peg$c35 = function() { return [{ n: "ZoneId", l: location() }]; },
-        peg$c36 = "%25",
-        peg$c37 = peg$literalExpectation("%25", false),
-        peg$c38 = function(IPv6address, ZoneID) { return IPv6address.concat(ZoneID); },
+        peg$c35 = "%25",
+        peg$c36 = peg$literalExpectation("%25", false),
+        peg$c37 = function(IPv6address, ZoneID) { return IPv6address.concat(ZoneID ? ZoneID[1] : []); },
+        peg$c38 = function() { return [{ n: "ZoneId", l: location() }]; },
         peg$c39 = "v",
         peg$c40 = peg$literalExpectation("v", false),
         peg$c41 = function() { return [ { n: "IPvFuture", l: location() }]; },
@@ -1030,10 +1030,7 @@
       if (s1 !== peg$FAILED) {
         s2 = peg$parseIPv6addrz();
         if (s2 === peg$FAILED) {
-          s2 = peg$parseIPv6address();
-          if (s2 === peg$FAILED) {
-            s2 = peg$parseIPvFuture();
-          }
+          s2 = peg$parseIPvFuture();
         }
         if (s2 !== peg$FAILED) {
           if (input.charCodeAt(peg$currPos) === 93) {
@@ -1051,6 +1048,52 @@
             peg$currPos = s0;
             s0 = peg$FAILED;
           }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+
+      return s0;
+    }
+
+    function peg$parseIPv6addrz() {
+      var s0, s1, s2, s3, s4;
+
+      s0 = peg$currPos;
+      s1 = peg$parseIPv6address();
+      if (s1 !== peg$FAILED) {
+        s2 = peg$currPos;
+        if (input.substr(peg$currPos, 3) === peg$c35) {
+          s3 = peg$c35;
+          peg$currPos += 3;
+        } else {
+          s3 = peg$FAILED;
+          if (peg$silentFails === 0) { peg$fail(peg$c36); }
+        }
+        if (s3 !== peg$FAILED) {
+          s4 = peg$parseZoneID();
+          if (s4 !== peg$FAILED) {
+            s3 = [s3, s4];
+            s2 = s3;
+          } else {
+            peg$currPos = s2;
+            s2 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s2;
+          s2 = peg$FAILED;
+        }
+        if (s2 === peg$FAILED) {
+          s2 = null;
+        }
+        if (s2 !== peg$FAILED) {
+          peg$savedPos = s0;
+          s1 = peg$c37(s1, s2);
+          s0 = s1;
         } else {
           peg$currPos = s0;
           s0 = peg$FAILED;
@@ -1085,44 +1128,9 @@
       }
       if (s1 !== peg$FAILED) {
         peg$savedPos = s0;
-        s1 = peg$c35();
+        s1 = peg$c38();
       }
       s0 = s1;
-
-      return s0;
-    }
-
-    function peg$parseIPv6addrz() {
-      var s0, s1, s2, s3;
-
-      s0 = peg$currPos;
-      s1 = peg$parseIPv6address();
-      if (s1 !== peg$FAILED) {
-        if (input.substr(peg$currPos, 3) === peg$c36) {
-          s2 = peg$c36;
-          peg$currPos += 3;
-        } else {
-          s2 = peg$FAILED;
-          if (peg$silentFails === 0) { peg$fail(peg$c37); }
-        }
-        if (s2 !== peg$FAILED) {
-          s3 = peg$parseZoneID();
-          if (s3 !== peg$FAILED) {
-            peg$savedPos = s0;
-            s1 = peg$c38(s1, s3);
-            s0 = s1;
-          } else {
-            peg$currPos = s0;
-            s0 = peg$FAILED;
-          }
-        } else {
-          peg$currPos = s0;
-          s0 = peg$FAILED;
-        }
-      } else {
-        peg$currPos = s0;
-        s0 = peg$FAILED;
-      }
 
       return s0;
     }

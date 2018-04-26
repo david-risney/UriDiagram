@@ -30,11 +30,11 @@
 
    port          = DIGIT* { return [ { n: "port", l: location() } ]; }
 
-   IP_literal    = "[" literal:( IPv6addrz / IPv6address / IPvFuture  ) "]" { return literal; }
+   IP_literal    = "[" literal:( IPv6addrz / IPvFuture  ) "]" { return literal; }
+
+   IPv6addrz = IPv6address:IPv6address ZoneID:("%25" ZoneID)? { return IPv6address.concat(ZoneID ? ZoneID[1] : []); }
 
    ZoneID = ( unreserved / pct_encoded )+ { return [{ n: "ZoneId", l: location() }]; }
-
-   IPv6addrz = IPv6address:IPv6address "%25" ZoneID:ZoneID { return IPv6address.concat(ZoneID); }
 
    IPvFuture     = "v" HEXDIG+ "." ( unreserved / sub_delims / ":" )+ { return [ { n: "IPvFuture", l: location() }]; }
 
