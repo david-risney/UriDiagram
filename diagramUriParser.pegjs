@@ -26,7 +26,7 @@
 
    host          = sub:IP_literal { return [ { n: "host", l: location() } ].concat(sub || []); }
                  / sub:IPv4address { return [ { n: "host", l: location() } ].concat(sub || []); }
-                 / sub:reg_name { return [ { n: "host", l: location() } ].concat(sub || []); }
+                 / reg_name { return [ { n: "host", l: location() } ]; }
 
    port          = DIGIT* { return [ { n: "port", l: location() } ]; }
 

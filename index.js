@@ -60,8 +60,8 @@ document.addEventListener("DOMContentLoaded", e => {
         let currentLineTop = { start: Infinity, end: -Infinity, value: "" };
         let currentLineBottom = { start: Infinity, end: -Infinity, value: "" };
         for (let count = 0; count < entries.length; ++count) {
-            if (inRange(Math.min(currentLineTop.start, currentLineBottom.start), entries[count].minStart, Math.max(currentLineTop.end, currentLineBottom.end)) ||
-                inRange(Math.min(currentLineTop.start, currentLineBottom.start), entries[count].maxEnd, Math.max(currentLineTop.end, currentLineBottom.end)))
+            if (inRange(Math.min(currentLineTop.start, currentLineBottom.start), entries[count].minStart, Math.max(currentLineTop.end - 1, currentLineBottom.end - 1)) ||
+                inRange(Math.min(currentLineTop.start - 1, currentLineBottom.start - 1), entries[count].maxEnd, Math.max(currentLineTop.end, currentLineBottom.end)))
             {
                 lines.push(currentLineTop.value);
                 lines.push(currentLineBottom.value);
