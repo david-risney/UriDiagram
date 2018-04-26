@@ -166,7 +166,7 @@
         peg$c22 = function() { return [ { n: "scheme", l: location() } ]; },
         peg$c23 = "@",
         peg$c24 = peg$literalExpectation("@", false),
-        peg$c25 = function(userinfo, host, port) { return (userinfo ? userinfo[0] : []).concat(host).concat(port ? port[1] : []); },
+        peg$c25 = function(userinfo, host, port) { return [{ n: "authority", l: location() }].concat(userinfo ? userinfo[0] : []).concat(host).concat(port ? port[1] : []); },
         peg$c26 = function() { return [ { n: "userinfo", l: location() }]; },
         peg$c27 = function(sub) { return [ { n: "host", l: location() } ].concat(sub || []); },
         peg$c28 = function() { return [ { n: "host", l: location() } ]; },

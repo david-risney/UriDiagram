@@ -21,7 +21,7 @@
 
    scheme        = ALPHA ( ALPHA / DIGIT / "+" / "-" / "." )* { return [ { n: "scheme", l: location() } ]; }
 
-   authority     = userinfo:( userinfo "@" )? host:host port:( ":" port )? { return (userinfo ? userinfo[0] : []).concat(host).concat(port ? port[1] : []); }
+   authority     = userinfo:( userinfo "@" )? host:host port:( ":" port )? { return [{ n: "authority", l: location() }].concat(userinfo ? userinfo[0] : []).concat(host).concat(port ? port[1] : []); }
    userinfo      = ( unreserved / pct_encoded / sub_delims / ":" )* { return [ { n: "userinfo", l: location() }]; }
 
    host          = sub:IP_literal { return [ { n: "host", l: location() } ].concat(sub || []); }
