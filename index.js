@@ -3,6 +3,14 @@ document.addEventListener("DOMContentLoaded", e => {
     const uriArea = document.getElementById("uriArea");
     const errorArea = document.getElementById("errorArea");
 
+    if (uriArea.textContent.length === 0 && document.location.search.length > 0) {
+        uriArea.textContent = document.location.search.substr(1);
+    }
+    else {
+        uriArea.textContent = "https://user:pass@example.com:8080/path/parts?a=b&c=d#fragment";
+    }
+    uriAreaChanged();
+
     function clearError() {
         errorArea.textContent = "";
     }
@@ -51,9 +59,6 @@ document.addEventListener("DOMContentLoaded", e => {
                 left.minStart - right.minStart :  // sort first by starting position then by length
                 right.maxLength - left.maxLength; // reverse sort to have longest at front
         });
-
-        console.log(entries.map(e => e.name).join(", "));
-        console.log(entries.map(e => JSON.stringify(e)).join("\n\t"));
 
         let lines = [];
 

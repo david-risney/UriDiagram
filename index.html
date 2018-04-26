@@ -1,4 +1,5 @@
 <html style="fill">
+    <head>
 <style>
 .fixedTextOutput {
     white-space: pre;
@@ -27,8 +28,12 @@ HTML {
 </style>
 <script src="diagramUriParser.js"></script>
 <script src="index.js"></script>
+<title>URI Diagram</title>
+</head>
 <body style="fill">
-<div class="fixedTextOutput fillWidth" id="diagramArea">EXAMPLE</div>
+    <h1>URI Diagram</h1>
+    <p>Enter a URI and see a diagram of its various parts based on the <a href="https://tools.ietf.org/html/rfc3986#appendix-a">URI RFC ABNF</a> and parsed with <a href="https://pegjs.org/">PEG.js</a>. Hosted on <a href="https://github.com/david-risney/UriDiagram">github</a>.</p>
+<div class="fixedTextOutput fillWidth" id="diagramArea"></div>
 <div class="fixedTextOutput fillWidth white" contenteditable="true" id="uriArea"></div>
 <div class="fixedTextOutput fillWidth red" id="errorArea"></div>
 </body>
