@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", e => {
     const uriArea = document.getElementById("uriArea");
     const errorArea = document.getElementById("errorArea");
 
-    if (uriArea.textContent.length === 0 && document.location.search.length > 0) {
-        uriArea.textContent = document.location.search.substr(1);
+    if (uriArea.textContent.length === 0 && location.search.length > 0) {
+        uriArea.textContent = decodeURIComponent(location.search.substr(1));
     }
     else {
         uriArea.textContent = "https://user:pass@example.com:8080/path/parts?a=b&c=d#fragment";
@@ -17,6 +17,13 @@ document.addEventListener("DOMContentLoaded", e => {
 
     function handleError(error) {
         errorArea.textContent = error.message;
+    }
+
+    function updateUri() {
+        const encodedUri = encodeURIComponent(uriArea.textContent);
+        if (location.search.length === 0 || location.search.substr(1) !== encodedUri) {
+            history.replaceState({}, "URI Diagram", "?" + encodedUri);
+        }
     }
 
     function renderDiagram(inEntries) {
@@ -97,6 +104,7 @@ document.addEventListener("DOMContentLoaded", e => {
     function uriAreaChanged() {
         try {
             clearError();
+            updateUri();
             const result = diagramUriParser.parse(uriArea.textContent.trim());
             diagramArea.textContent = renderDiagram(result);
         }
